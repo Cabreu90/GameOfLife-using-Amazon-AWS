@@ -10,7 +10,7 @@ pipeline {
         stage('Build') { 
               agent { dockerfile true }
               steps { 
-                  sh 'run_docker.sh' 
+                  sh 'run_docker' 
             }
         }
      }
