@@ -1,3 +1,4 @@
 FROM nginx:alpine
+
 # Copy source code to working directory
-COPY site /usr/share/nginx/html
+COPY . Index.html /usr/share/nginx/html/
