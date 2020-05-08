@@ -16,7 +16,7 @@ push:
 
 clean:
 	# Remove unused images 
-	docker image rm site
+	#docker image rm site
 	docker system prune
 	
 all: setup build push

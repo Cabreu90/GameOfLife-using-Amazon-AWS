@@ -1,4 +1,0 @@
-Flask
-itsdangerous
-MarkupSafe
-Werkzeug
