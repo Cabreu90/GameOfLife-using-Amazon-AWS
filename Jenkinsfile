@@ -1,7 +1,5 @@
 pipeline {
-     agent { 
-         Any
-         dockerfile true }
+     agent any
      stages {
 
         stage('Lint HTML') {
@@ -10,6 +8,7 @@ pipeline {
               }
          }
         stage('Build') { 
+            agent { dockerfile true }
               steps { 
                   sh 'run_docker.sh' 
             }
