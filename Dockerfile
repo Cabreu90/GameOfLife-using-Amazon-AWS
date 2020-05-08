@@ -6,7 +6,7 @@ WORKDIR /site
 
 ## Step 2:
 # Copy source code to working directory
-COPY . Index.html /site/
+COPY . app.py /site/
 
 ## Step 3:
 # Install packages from requirements.txt
@@ -20,4 +20,4 @@ EXPOSE 80
 
 ## Step 5:
 # Run app.py at container launch
-CMD ["html", "Index.html"]
+CMD ["python", "app.py"]
