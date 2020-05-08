@@ -10,14 +10,15 @@ setup:
 
 build:
 	# Create image
-	docker build --tag=site .
+	docker build --tag=site . --force-rm
 
 push:
 	# Push to docker hub
 	docker push cabreu90/site
 
 clean:
-	#Remove unsused image
-	docker system prune -a
+	# Remove unsused image
+	#docker system prune 
+	docker image rm site
 	
 all: setup build push

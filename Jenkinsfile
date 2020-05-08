@@ -7,11 +7,24 @@ pipeline {
                   sh 'tidy -q -e *.html'
               }
          }
-        stage('Build') { 
-              //agent { dockerfile true }
+        stage('Build Image') { 
               steps { 
                   sh 'make build'
-                  //clean up remove image
+            }
+        }
+        stage('Security Scan') {
+              steps { 
+                  aquaMicroscanner imageName: 'site:latest', notCompleted: 'exit 1', onDisallowed: 'fail'
+              }
+         }  
+        stage('Upload Image') {
+              steps {
+                  sh 'echo "Image Uploaded"; exit 1'
+              }
+         }
+        stage('Clean Up') { 
+              steps { 
+                  sh 'make clean'
             }
         }
      }
