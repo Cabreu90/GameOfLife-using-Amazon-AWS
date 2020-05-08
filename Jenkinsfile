@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Upload Image') {
               steps {
-                  sh 'echo "Image Uploaded"; exit 1'
+                  sh 'echo "Image Uploaded";'
               }
          }
         stage('Clean Up') { 
