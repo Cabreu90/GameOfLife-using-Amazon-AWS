@@ -14,12 +14,12 @@ pipeline {
         }
         stage('Security Scan') {
               steps { 
-                  aquaMicroscanner imageName: 'site:latest', notCompleted: 'exit 1', onDisallowed: 'fail'
+                 // aquaMicroscanner imageName: 'site:latest', notCompleted: 'exit 1', onDisallowed: 'fail'
               }
          }  
         stage('Upload Image') {
               steps {
-                  sh 'upload_docker.sh'
+                //  sh 'upload_docker.sh'
               }
          }
      }
