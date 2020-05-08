@@ -1,5 +1,7 @@
 pipeline {
-     agent { dockerfile true }
+     agent { 
+         Any
+         dockerfile true }
      stages {
 
         stage('Lint HTML') {
