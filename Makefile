@@ -3,10 +3,8 @@
 # Install dependencies in requirements.txt
 
 setup:
-	# Create python virtual environment
-	python3 -m venv ~/.devops
-	# Activate environment source
-	source ~/.devops/bin/activate
+	#
+	#
 
 build:
 	# Create image
@@ -17,8 +15,8 @@ push:
 	docker push cabreu90/site
 
 clean:
-	# Remove unsused image
-	#docker system prune 
+	# Remove unused images 
 	docker image rm site
+	docker system prune
 	
 all: setup build push
