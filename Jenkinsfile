@@ -33,13 +33,13 @@ pipeline {
          }
         stage('Clean Up') { 
               steps { 
-                  sh 'make clean'
+                  sh "docker rmi $registry:$BUILD_NUMBER"
             }
         }
      }
     post {
         always {
-            sh 'docker image rm site'
+            sh "docker rmi $registry:$BUILD_NUMBER"
             sh 'docker system prune'
         }
     }
