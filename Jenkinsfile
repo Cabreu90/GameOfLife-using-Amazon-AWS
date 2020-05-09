@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Security Scan') {
               steps { 
-                  aquaMicroscanner imageName: "$dockerImage", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: registry+":$BUILD_NUMBER", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
               sh 'echo "Sucurity scanned"'
               }
          } 
