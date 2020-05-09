@@ -12,7 +12,7 @@ build:
 
 push:
 	# Push to docker hub
-	docker push cabreu90/site
+	docker push site
 
 clean:
 	# Remove unused images 
