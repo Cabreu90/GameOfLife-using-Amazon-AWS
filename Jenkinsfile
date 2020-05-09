@@ -21,7 +21,11 @@ pipeline {
                   }
             }
         }
-
+        stage('Security Scan') {
+              steps { 
+                  aquaMicroscanner imageName: 'site:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+              }
+         } 
         stage('Upload Image') {
               steps {
                   script {
@@ -39,7 +43,7 @@ pipeline {
      }
     post {
         always {
-            sh "docker rmi $registry:$BUILD_NUMBER"
+            //sh "docker rmi $registry:$BUILD_NUMBER"
             sh 'docker system prune'
         }
     }
