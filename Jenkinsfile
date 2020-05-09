@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Security Scan') {
               steps { 
-                  //aquaMicroscanner imageName: dockerImage, notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: "$dockerImage", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
               sh 'echo "Sucurity scanned"'
               }
          } 
@@ -31,7 +31,7 @@ pipeline {
               steps {
                   script {
                       docker.withRegistry( '', registryCredential ) {
-                          dockerImage.push()
+               //           dockerImage.push()
                            }
                   }
               }
@@ -39,6 +39,7 @@ pipeline {
         stage('Clean Up') { 
               steps { 
                   sh "docker rmi $registry"
+                sh 'echo "Cleaned'
             }
         }
      }
