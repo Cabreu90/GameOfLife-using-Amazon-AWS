@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Security Scan') {
               steps { 
-                  aquaMicroscanner imageName: 'site:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: dockerImage, notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
               }
          } 
         stage('Upload Image') {
