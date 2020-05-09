@@ -16,7 +16,20 @@ push:
 
 clean:
 	# Remove unused images 
-	docker image rm site
+	#docker image rm site
 	docker system prune
-	
-all: setup build push
+
+cluster:
+	# Create cluster with eksctl using a configuration file
+	eksctl create cluster -f clusterConf.yaml 
+
+test:
+	kubectl get svc
+
+deploy:
+	kubectl apply -f docker pull cabreu90/site:latest
+
+destroycluster:
+	eksctl delete cluster -f clusterConf.yaml --wait
+
+all: build push

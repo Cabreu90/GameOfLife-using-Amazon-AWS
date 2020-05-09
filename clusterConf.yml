@@ -1,0 +1,21 @@
+# A simple example of ClusterConfig object with two nodegroups:
+--- 
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: mcluster
+  region: us-west-2
+
+nodeGroups:
+  - name: greenNode
+    instanceType: t2.micro
+    desiredCapacity: 2
+    ssh: # use existing EC2 key
+      publicKeyName: private-servers-key
+
+  - name: blueNode
+    instanceType: t2.micro
+    desiredCapacity: 2
+    ssh: # use existing EC2 key
+      publicKeyName: private-servers-key

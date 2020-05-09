@@ -19,7 +19,8 @@ pipeline {
          } 
         stage('Upload Image') {
               steps {
-                  sh 'echo "Image Uploaded";'
+                  //echo "Image Uploaded
+                  sh 'make push'
               }
          }
         stage('Clean Up') { 
