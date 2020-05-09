@@ -31,6 +31,7 @@ pipeline {
      }
     post {
         always {
+            sh 'docker image rm site'
             sh 'docker system prune'
         }
     }

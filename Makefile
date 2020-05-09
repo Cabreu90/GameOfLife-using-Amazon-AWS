@@ -12,7 +12,10 @@ build:
 
 push:
 	# Push to docker hub
-	docker push site
+	dockerpath= cabreu90/site
+	imageID= docker images -q site
+	docker tag ${imageID} ${dockerpath}
+	docker push ${dockerpath}
 
 clean:
 	# Remove unused images 
