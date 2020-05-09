@@ -20,7 +20,7 @@ pipeline {
         stage('Upload Image') {
               steps {
                   //echo "Image Uploaded
-                  sh 'make push'
+                  sh './upload_docker.sh'
               }
          }
         stage('Clean Up') { 
