@@ -1,4 +1,11 @@
 pipeline {
+
+     environment {
+        registry = "cabreu90/site"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+        }
+
      agent any
      stages {
 
@@ -9,18 +16,19 @@ pipeline {
          }
         stage('Build Image') { 
               steps { 
-                  sh 'make build'
+                  script {
+                   dockerImage= docker.build registry + ":$BUILD_NUMBER"   
+                  }
             }
         }
-        stage('Security Scan') {
-              steps { 
-                  aquaMicroscanner imageName: 'site:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
-              }
-         } 
+
         stage('Upload Image') {
               steps {
-                  //echo "Image Uploaded
-                  sh 'make push'
+                  script {
+                      docker.withRegistry( '', registryCredential ) {
+                          dockerImage.push()
+                           }
+                  }
               }
          }
         stage('Clean Up') { 
