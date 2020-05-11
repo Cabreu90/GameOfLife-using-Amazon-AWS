@@ -40,6 +40,8 @@ pipeline {
         stage('Deploy'){
             steps {
              sh 'echo "Deploying Image"'
+             sh 'make build'
+             sh 'make test'
             }
          }
         stage('Clean Up') { 
