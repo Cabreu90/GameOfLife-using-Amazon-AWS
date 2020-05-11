@@ -23,7 +23,7 @@ installEKS:
 
 installCLI:
 # Install or Upgrade awscli
-	pip install awscli --upgrade --user
+	pip install awscli --upgrade
 
 ready:
 	# Check if kubectl is installed

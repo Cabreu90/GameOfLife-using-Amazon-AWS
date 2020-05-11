@@ -37,17 +37,39 @@ pipeline {
                            }
                   }
               }
-        stage('Deploy'){
+        stage('Cluster Context Set Up'){
             steps {
-             sh 'echo "Deploying Image"'
+             sh 'echo "Deploying Image/Creating Cluster"'
              sh 'make build'
              sh 'make test'
             }
          }
+         stage('Green/Blue Conntroller') { 
+              steps { 
+                  sh 'echo "Green/Blue Conntroller"'
+            }
+        }
+        stage('Traffic Routing') { 
+              steps { 
+                  sh 'echo "Traffic Routing"'
+            }
+        }
+        stage('User Test') { 
+              steps { 
+                  
+                  sh 'echo "User Test"'
+            }
+        }
+        stage('Update Service') { 
+              steps { 
+                  
+                  sh 'echo "Update Service"'
+            }
+        }
         stage('Clean Up') { 
               steps { 
                   //sh "docker rmi $registry:$BUILD_NUMBER"
-                  sh 'echo "Cleaning Up"'
+                  sh 'echo "Clean Up"'
             }
         }
      }
