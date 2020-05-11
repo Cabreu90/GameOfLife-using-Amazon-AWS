@@ -41,7 +41,7 @@ pipeline {
             steps {
              sh 'echo "Deploying Image/Creating Cluster"'
              //sh 'make build'
-             sh 'make test'
+             //sh 'make test'
             }
          }
          stage('Green/Blue Conntroller') { 
