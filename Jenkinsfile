@@ -40,7 +40,7 @@ pipeline {
         stage('Cluster Context Set Up'){
             steps {
              sh 'echo "Deploying Image/Creating Cluster"'
-             sh 'make build'
+             //sh 'make build'
              sh 'make test'
             }
          }
