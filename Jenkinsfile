@@ -37,8 +37,10 @@ pipeline {
                            }
                   }
               }
-         stage('Deploy'){
+        stage('Deploy'){
+            steps {
              sh 'echo "Deploying Image"'
+            }
          }
         stage('Clean Up') { 
               steps { 
