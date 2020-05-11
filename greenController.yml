@@ -1,0 +1,20 @@
+# Crating pods with the image
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: green
+spec:
+  replicas: 2
+  selector:
+    app: green
+  template:
+    metadata:
+      name: green
+      labels:
+        app: green
+    spec:
+      containers:
+      - name: green
+        image: cabreu90/site
+        ports:
+        - containerPort: 80

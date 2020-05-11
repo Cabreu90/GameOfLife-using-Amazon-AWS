@@ -35,7 +35,7 @@ ready:
 
 build:
 	# Create cluster with eksctl using a configuration file
-	eksctl create cluster -f clusterConf.yaml 
+	eksctl create cluster -f ./clusterConf.yaml 
 
 test:
 	# check/see cluster

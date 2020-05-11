@@ -7,11 +7,15 @@ pipeline {
         }
 
      agent any
+     options {
+            withAWS(profile:'myProfile')
+     }
      stages {
 
         stage('Lint HTML') {
               steps {
                   sh 'tidy -q -e *.html'
+                  //Do: hadolint Dockerfile
               }
          }
         stage('Build Image') { 
@@ -45,7 +49,8 @@ pipeline {
             }
          }
          stage('Green/Blue Conntroller') { 
-              steps { 
+              steps {
+                  // kubectl apply -f ./greenController.yml 
                   sh 'echo "Green/Blue Conntroller"'
             }
         }
@@ -60,9 +65,9 @@ pipeline {
                   sh 'echo "User Test"'
             }
         }
-        stage('Update Service') { 
+        stage('Deploy') { 
               steps { 
-                  
+                  // kubectl apply -f ./BGService.yml
                   sh 'echo "Update Service"'
             }
         }
