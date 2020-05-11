@@ -33,11 +33,10 @@ pipeline {
                   script {
                 //      docker.withRegistry( '', registryCredential ) {
                //           dockerImage.push()
-               sh 'echo "Uploading Image"'
+                        sh 'echo "Uploading Image"'
                            }
                   }
               }
-         }
          stage('Deploy'){
              sh 'echo "Deploying Image"'
          }
