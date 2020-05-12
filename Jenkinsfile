@@ -69,7 +69,7 @@ pipeline {
         }
         stage('Deploy') { 
               steps { 
-                  sh "kubectl apply -f ./BGService.yml"
+                 // sh "kubectl apply -f ./BGService.yml"
                   sh 'echo "Update Service"'
             }
         }
@@ -78,7 +78,7 @@ pipeline {
                   //sh "docker rmi $registry:$BUILD_NUMBER"
                   sh 'echo "Clean Up"'
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh "eksctl delete cluster --name=mcluster"
+                    sh "eksctl delete cluster --name=mcluster --wait"
                   }
             }
         }
