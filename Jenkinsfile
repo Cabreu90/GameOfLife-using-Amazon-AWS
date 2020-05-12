@@ -44,7 +44,7 @@ pipeline {
         stage('Cluster Context Set Up'){
             steps {
              sh 'echo "Deploying Image/Creating Cluster"'
-            sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yaml"
+            sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
              //sh 'make test'
             }
          }
