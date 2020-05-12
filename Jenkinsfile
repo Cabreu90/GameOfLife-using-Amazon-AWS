@@ -11,7 +11,7 @@ pipeline {
 
         stage('Lint HTML') {
               steps {
-                  sh 'tidy -q -e *.html'
+                  //sh 'tidy -q -e *.html'
                   //Do: hadolint Dockerfile
               }
          }
@@ -42,21 +42,18 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
-                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
+                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
          stage('Green/Blue Conntroller') { 
             steps {
-                //Run command from home directory.
-                dir('/home/ubuntu/dot'){
                     withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        sh "kubectl apply kubectl version --short --client" //-f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
-                    //sh "kubectl version --short --client"
+                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
                     sh 'echo "Green/Blue Conntroller"'
                     }
-                }
+                
             }
         }
         stage('Traffic Routing') { 
@@ -80,9 +77,9 @@ pipeline {
               steps { 
                   //sh "docker rmi $registry:$BUILD_NUMBER"
                   sh 'echo "Clean Up"'
-                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
+                  //withAWS(credentials: 'aws-static', region: 'us-west-2') {
                   //  sh "eksctl delete cluster --name=mcluster --wait"
-                  }
+                  //}
             }
         }
      }
