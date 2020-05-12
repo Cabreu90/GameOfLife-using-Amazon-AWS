@@ -68,7 +68,7 @@ pipeline {
         }
         stage('Deploy') { 
               steps { 
-                   kubectl apply -f ./BGService.yml
+                  sh "kubectl apply -f ./BGService.yml"
                   sh 'echo "Update Service"'
             }
         }
