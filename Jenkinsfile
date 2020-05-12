@@ -50,7 +50,7 @@ pipeline {
          stage('Green/Blue Conntroller') { 
             steps {
                 //Run command from home directory.
-                dir ('home/ubuntu'){
+                dir('/home/ubuntu'){
                     withAWS(credentials: 'aws-static', region: 'us-west-2') {
                         sh "kubectl" //apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
                     //sh "kubectl version --short --client"
