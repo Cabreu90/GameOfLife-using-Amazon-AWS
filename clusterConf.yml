@@ -14,8 +14,8 @@ nodeGroups:
     ssh: # use existing EC2 key
       publicKeyName: private-servers-key
 
-  - name: blueNode
-    instanceType: t2.micro
-    desiredCapacity: 2
-    ssh: # use existing EC2 key
-      publicKeyName: private-servers-key
+  #- name: blueNode
+   # instanceType: t2.micro
+    #desiredCapacity: 2
+    #ssh: # use existing EC2 key
+     # publicKeyName: private-servers-key
