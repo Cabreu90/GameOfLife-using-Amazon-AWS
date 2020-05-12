@@ -40,7 +40,7 @@ pipeline {
               }
         stage('Cluster Context Set Up'){
             steps {
-                withAWS(credentials:'IDofAwsCredentials') {
+                withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
                     sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
                     //sh 'make test'
