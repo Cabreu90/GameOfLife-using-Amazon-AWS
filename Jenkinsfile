@@ -42,9 +42,9 @@ pipeline {
         stage('Cluster Context Set Up'){
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    //sh 'echo "Deploying Image/Creating Cluster"'
+                    sh 'echo "Deploying Image/Creating Cluster"'
                     //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
@@ -66,7 +66,8 @@ pipeline {
         stage('Deploy') { 
               steps {
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
+                        //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
+                        sh "kubectl get svc"
                         //sh 'echo "Update Service"'
                   }
             }
