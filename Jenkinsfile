@@ -50,7 +50,7 @@ pipeline {
          }
          stage('Green/Blue Conntroller') { 
               steps {
-                  // kubectl apply -f ./greenController.yml 
+                  kubectl apply -f ./greenController.yml 
                   sh 'echo "Green/Blue Conntroller"'
             }
         }
