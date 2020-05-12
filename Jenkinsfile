@@ -51,7 +51,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
-                    sh "kubectl version --short --client"
+                    //sh "kubectl version --short --client"
                     sh 'echo "Green/Blue Conntroller"'
                 }
             }
@@ -78,7 +78,7 @@ pipeline {
                   //sh "docker rmi $registry:$BUILD_NUMBER"
                   sh 'echo "Clean Up"'
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                  //sh "eksctl delete cluster --name=mcluster"
+                    sh "eksctl delete cluster --name=mcluster"
                   }
             }
         }
