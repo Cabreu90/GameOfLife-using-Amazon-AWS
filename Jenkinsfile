@@ -42,20 +42,22 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
-                    sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
+                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
                     //sh 'make test'
                 }
             }
          }
          stage('Green/Blue Conntroller') { 
-              steps {
-                 // sh "kubectl apply -f ./greenController.yml" 
-                  sh 'echo "Green/Blue Conntroller"'
+            steps {
+                withAWS(credentials: 'aws-static', region: 'us-west-2') {
+                    sh "kubectl apply -f ./greenController.yml" 
+                    sh 'echo "Green/Blue Conntroller"'
+                }
             }
         }
         stage('Traffic Routing') { 
-              steps { 
-                  sh 'echo "Traffic Routing"'
+            steps { 
+                sh 'echo "Traffic Routing"'
             }
         }
         stage('User Test') { 
@@ -66,7 +68,7 @@ pipeline {
         }
         stage('Deploy') { 
               steps { 
-                  // kubectl apply -f ./BGService.yml
+                   kubectl apply -f ./BGService.yml
                   sh 'echo "Update Service"'
             }
         }
@@ -74,6 +76,9 @@ pipeline {
               steps { 
                   //sh "docker rmi $registry:$BUILD_NUMBER"
                   sh 'echo "Clean Up"'
+                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
+                  //sh "eksctl delete cluster --name=mcluster"
+                  }
             }
         }
      }
