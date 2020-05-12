@@ -7,9 +7,6 @@ pipeline {
         }
 
      agent any
-     options {
-            withAWS(profile:'myProfile')
-     }
      stages {
 
         stage('Lint HTML') {
@@ -43,9 +40,11 @@ pipeline {
               }
         stage('Cluster Context Set Up'){
             steps {
-             sh 'echo "Deploying Image/Creating Cluster"'
-            sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-             //sh 'make test'
+                withAWS(credentials:'IDofAwsCredentials') {
+                    sh 'echo "Deploying Image/Creating Cluster"'
+                    sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
+                    //sh 'make test'
+                }
             }
          }
          stage('Green/Blue Conntroller') { 
