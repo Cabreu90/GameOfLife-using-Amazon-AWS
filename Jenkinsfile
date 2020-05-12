@@ -50,7 +50,7 @@ pipeline {
          stage('Green/Blue Conntroller') { 
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/greenController.yml" 
+                    sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/conf/greenController.yml" 
                     sh 'echo "Green/Blue Conntroller"'
                 }
             }
