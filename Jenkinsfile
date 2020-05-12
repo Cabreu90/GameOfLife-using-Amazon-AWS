@@ -43,14 +43,15 @@ pipeline {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
                     //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
          stage('Green/Blue Conntroller') { 
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
+                    //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
+                    sh "kubectl version --short --client"
                     sh 'echo "Green/Blue Conntroller"'
                 }
             }
