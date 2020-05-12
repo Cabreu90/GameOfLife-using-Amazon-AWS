@@ -51,8 +51,8 @@ pipeline {
          stage('Green/Blue Conntroller') { 
             steps {
                     withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        sh "kubectl delete pods,services green"
-                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
+                      
+                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
                     sh 'echo "Green/Blue Conntroller"'
                     }
                 
@@ -82,9 +82,9 @@ pipeline {
               steps { 
                   //sh "docker rmi $registry:$BUILD_NUMBER"
                   sh 'echo "Clean Up"'
-                  //withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    //sh "eksctl delete cluster --name=mcluster --wait"
-                  //}
+                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
+                    sh "eksctl delete cluster --name=mcluster --wait"
+                  }
             }
         }
      }
