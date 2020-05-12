@@ -43,7 +43,7 @@ pipeline {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
                     //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    //sh 'make test'
+                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
