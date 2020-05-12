@@ -51,7 +51,7 @@ pipeline {
          stage('Green/Blue Conntroller') { 
             steps {
                     withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        sh"kubectl delete pods,services -l name=green"
+                        sh "kubectl delete pods,services green"
                       sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml" 
                     sh 'echo "Green/Blue Conntroller"'
                     }
