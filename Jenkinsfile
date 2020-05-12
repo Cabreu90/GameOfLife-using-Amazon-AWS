@@ -44,13 +44,13 @@ pipeline {
         stage('Cluster Context Set Up'){
             steps {
              sh 'echo "Deploying Image/Creating Cluster"'
-             //sh 'make build'
+            sh "eksctl create cluster -f Conf/clusterConf.yaml"
              //sh 'make test'
             }
          }
          stage('Green/Blue Conntroller') { 
               steps {
-                  sh "kubectl apply -f ./greenController.yml" 
+                 // sh "kubectl apply -f ./greenController.yml" 
                   sh 'echo "Green/Blue Conntroller"'
             }
         }
