@@ -64,9 +64,11 @@ pipeline {
             }
         }
         stage('Deploy') { 
-              steps { 
-                  sh "kubectl apply -f ./BGService.yml"
-                  //sh 'echo "Update Service"'
+              steps {
+                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
+                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
+                        //sh 'echo "Update Service"'
+                  }
             }
         }
         stage('Clean Up') { 
