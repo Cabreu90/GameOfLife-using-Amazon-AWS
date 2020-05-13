@@ -72,11 +72,9 @@ pipeline {
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
                         sh "kubectl get pods"
-                        sh "kubectl get deployments"
                         sh "kubectl config get-contexts"
                         sh "kubectl describe pods"
                         sh "kubectl describe services/my-service"
-                        sh "kubectl describe deployment"
                         //sh 'echo "Update Service"'
                   }
             }
