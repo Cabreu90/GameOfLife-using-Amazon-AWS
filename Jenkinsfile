@@ -17,49 +17,42 @@ pipeline {
         stage('Build Image') { 
               steps { 
                   script {
-                   //dockerImage= docker.build registry + ":$BUILD_NUMBER"   
-                   sh 'echo "Building Image"'
+                   dockerImage= docker.build registry + ":$BUILD_NUMBER"   
                   }
             }
         }
         stage('Security Scan') {
               steps { 
-                  //aquaMicroscanner imageName: registry+":$BUILD_NUMBER", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: registry+":$BUILD_NUMBER", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
                   sh 'echo "Security Scanning Image"'    
               }
          } 
         stage('Upload Image') {
               steps {
                   script {
-                //      docker.withRegistry( '', registryCredential ) {
-               //           dockerImage.push()
-                        sh 'echo "Uploading Image"'
+                      docker.withRegistry( '', registryCredential ) {
+                          dockerImage.push()
                            }
                   }
               }
+        }
         stage('Cluster Context Set Up'){
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh 'echo "Deploying Image/Creating Cluster"'
-                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
          stage('Green/Blue Conntroller') { 
             steps {
-                    withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                      
-                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml"
-                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
-                    sh 'echo "Green/Blue Conntroller"'
+                    withAWS(credentials: 'aws-static', region: 'us-west-2') {                      
+                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml"
+                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
                     }
-                
             }
         }
         stage('User Test') { 
               steps { 
-                  
                   sh 'echo "User Test"'
             }
         }
@@ -73,25 +66,18 @@ pipeline {
                         sh "kubectl config get-contexts"
                         sh "kubectl describe pods"
                         sh "kubectl describe services/my-service"
-                        //sh 'echo "Update Service"'
                   }
             }
         }
         stage('Clean Up') { 
               steps { 
-                  //sh "docker rmi $registry:$BUILD_NUMBER"
-                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    //sh "eksctl delete cluster --name=mcluster --wait"
-                    sh 'echo "Clean Up"'
-                  }
-            }
+                sh "docker rmi $registry:$BUILD_NUMBER"
+              }
         }
-     }
+    } 
     post {
         always {
-            //sh "docker rmi $registry:$BUILD_NUMBER"
-            //sh 'docker system prune'
-            sh 'echo "Garbage collected"'
+            sh 'docker system prune'
         }
     }
 }
