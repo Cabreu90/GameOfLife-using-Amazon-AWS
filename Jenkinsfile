@@ -67,15 +67,14 @@ pipeline {
         stage('Deploy') { 
               steps {
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
-                        //sh "kubectl create deployment firstdeploy2 --image=$registry:45"
+                        //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
                         sh "kubectl get pods"
                         sh "kubectl get deployments"
                         sh "kubectl config get-contexts"
                         sh "kubectl describe pods"
-                        //sh "kubectl describe services/my-service"
+                        sh "kubectl describe services/my-service"
                         sh "kubectl describe deployment"
                         //sh 'echo "Update Service"'
                   }
