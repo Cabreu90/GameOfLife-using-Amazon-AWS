@@ -68,7 +68,7 @@ pipeline {
         stage('Deploy') { 
               steps {
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
+                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
                         sh "kubectl get pods"
