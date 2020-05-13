@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: green
-        image: cabreu90/site:45
+        image: cabreu90/site:green
         ports:
         - containerPort: 80
