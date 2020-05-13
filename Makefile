@@ -6,7 +6,8 @@ setup: installKube installEKS installCLI ready
 installKube:
 # Install Kubectl 
 	# Download 
-	curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+	curl -o kubectl\
+	 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
 	# Apply execute permissions to the binary.
 	chmod +x ./kubectl
 	# Copy the binary to a folder in your PATH.
@@ -17,7 +18,9 @@ installKube:
 installEKS:
 # Install eksctl
 	# Download and extract
-	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+	curl --silent --location \
+	"https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz"\
+	 | tar xz -C /tmp
 	# Move the extracted binary to /usr/local/bin
 	sudo mv /tmp/eksctl /usr/local/bin
 
@@ -35,18 +38,14 @@ ready:
 
 build:
 	# Create cluster with eksctl using a configuration file
-	eksctl create cluster -f ./clusterConf.yaml 
+	eksctl create cluster -f Conf/clusterConf.yaml 
 
 test:
 	# check/see cluster
 	kubectl get svc
 
-deploy:
-	# Deploy docker image
-	kubectl apply -f docker pull cabreu90/site:latest
-
 clean:
 	# Remove cluster
-	eksctl delete cluster -f clusterConf.yaml --wait
+	eksctl delete cluster -f Conf/clusterConf.yaml --wait
 
-all: build test
+all: ready build test

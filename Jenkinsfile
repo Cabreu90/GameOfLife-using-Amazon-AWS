@@ -43,8 +43,8 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
-                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
+                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
@@ -72,7 +72,6 @@ pipeline {
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
                         sh "kubectl get pods"
-                        sh "kubectl get deployments"
                         sh "kubectl config get-contexts"
                         //sh 'echo "Update Service"'
                   }
@@ -81,9 +80,10 @@ pipeline {
         stage('Clean Up') { 
               steps { 
                   //sh "docker rmi $registry:$BUILD_NUMBER"
-                  sh 'echo "Clean Up"'
+                  
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh "eksctl delete cluster --name=mcluster --wait"
+                    //sh "eksctl delete cluster --name=mcluster --wait"
+                    sh 'echo "Clean Up"'
                   }
             }
         }
