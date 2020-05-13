@@ -19,14 +19,14 @@ pipeline {
         stage('Build Image') { 
               steps { 
                   script {
-                   dockerImage= docker.build registry + ":green"   
+                   dockerImage= docker.build registry + ":blue"   
                    sh 'echo "Building Image"'
                   }
             }
         }
         stage('Security Scan') {
               steps { 
-                  aquaMicroscanner imageName: registry+":green", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: registry+":blue", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
                   sh 'echo "Security Scanning Image"'    
               }
          } 
@@ -80,7 +80,7 @@ pipeline {
         }
         stage('Clean Up') { 
               steps { 
-                  sh "docker rmi $registry:green"
+                  sh "docker rmi $registry:blue"
                   
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     //sh "eksctl delete cluster --name=mcluster --wait"
@@ -91,7 +91,7 @@ pipeline {
      }
     post {
         always {
-            //sh "docker rmi $registry:green"
+            //sh "docker rmi $registry:blue"
             sh 'docker system prune'
             sh 'echo "Garbage collected"'
         }
