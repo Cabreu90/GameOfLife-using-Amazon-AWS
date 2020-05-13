@@ -1,53 +1,84 @@
 pipeline {
+
+     environment {
+        registry = "cabreu90/site"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+        greenOrBlue= "green"
+        }
+
      agent any
      stages {
+
+        stage('Lint HTML') {
+            steps {            
+                sh 'tidy -q -e *.html'
+            }
+         }
+        stage('Build Image') { 
+              steps { 
+                  script {
+                   dockerImage= docker.build registry + ":$greenOrBlue"   
+                  }
+            }
+        }
+        stage('Security Scan') {
+              steps { 
+                  aquaMicroscanner imageName: registry+":$greenOrBlue", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  sh 'echo "Security Scanning Image"'    
+              }
+         } 
+        stage('Upload Image') {
+              steps {
+                  script {
+                      docker.withRegistry( '', registryCredential ) {
+                          dockerImage.push()
+                           }
+                  }
+              }
+        }
         stage('Cluster Context Set Up'){
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh 'echo "Deploying Image/Creating Cluster"'
-                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
          stage('Green/Blue Conntroller') { 
             steps {
-                    withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                      
-                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml"
-                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
-                    sh 'echo "Green/Blue Conntroller"'
+                    withAWS(credentials: 'aws-static', region: 'us-west-2') {                      
+                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml"
+                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
                     }
-                
             }
         }
         stage('User Test') { 
               steps { 
-                  
                   sh 'echo "User Test"'
             }
         }
         stage('Deploy') { 
               steps {
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                       // sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
-                        //sh "kubectl create deployment firstdeploy2 --image=$registry:45"
+                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
                         sh "kubectl get pods"
                         sh "kubectl config get-contexts"
-                        //sh 'echo "Update Service"'
+                        sh "kubectl describe pods"
+                        sh "kubectl describe services/my-service"
                   }
             }
         }
         stage('Clean Up') { 
               steps { 
-                  
-                  withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                    sh "eksctl delete cluster --name=mcluster --wait"
-                    sh 'echo "Clean Up"'
-                  }
-            }
+                sh "docker rmi $registry:$greenOrBlue"
+              }
         }
-     }
+    } 
+    post {
+        always {
+            sh 'docker system prune'
+        }
+    }
 }
