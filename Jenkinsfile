@@ -12,7 +12,7 @@ pipeline {
         stage('Lint HTML') {
               steps {
                   sh 'tidy -q -e *.html'
-                  sh "hadolint Dockerfile"
+                  sh "hadolint /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Dockerfile"
               }
          }
         stage('Build Image') { 
