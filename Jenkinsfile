@@ -12,8 +12,7 @@ pipeline {
         stage('Lint HTML') {
               steps {
                   sh 'tidy -q -e *.html'
-                  hadolint Dockerfile
-                  sh 'echo " "'
+                  sh "hadolint Dockerfile"
               }
          }
         stage('Build Image') { 
