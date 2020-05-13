@@ -15,7 +15,7 @@ pipeline {
                     withAWS(credentials: 'aws-static', region: 'us-west-2') {
                       
                       //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/greenController.yml"
-                      sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
+                      //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/blueController.yml" 
                     sh 'echo "Green/Blue Conntroller"'
                     }
                 
@@ -30,7 +30,7 @@ pipeline {
         stage('Deploy') { 
               steps {
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
-                        //sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
+                        sh "kubectl apply -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/BGService.yml"
                         //sh "kubectl create deployment firstdeploy2 --image=$registry:45"
                         sh "kubectl get svc"
                         sh "kubectl get nodes"
