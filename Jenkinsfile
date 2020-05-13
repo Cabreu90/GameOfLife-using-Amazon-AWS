@@ -10,10 +10,16 @@ pipeline {
      stages {
 
         stage('Lint HTML') {
-              steps {
-                  sh 'tidy -q -e *.html'
-                  sh "hadolint /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Dockerfile"
-              }
+            agent {
+                docker {
+                    image 'hadolint/hadolint:latest-debian'
+                }
+            }
+            steps {
+            
+                sh 'hadolint dockerfiles/* | tee -a hadolint_lint.txt'
+                sh 'tidy -q -e *.html'
+            }
          }
         stage('Build Image') { 
               steps { 
