@@ -34,11 +34,12 @@ pipeline {
               steps {
                   script {
                       docker.withRegistry( '', registryCredential ) {
-                          dockerImage.push()
-                        sh 'echo "Uploading Image"'
+                              dockerImage.push()
+                           sh 'echo "Uploading Image"'
                            }
                   }
-              }
+             }
+        }
         stage('Cluster Context Set Up'){
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
@@ -95,5 +96,4 @@ pipeline {
             sh 'echo "Garbage collected"'
         }
     }
-
 }
