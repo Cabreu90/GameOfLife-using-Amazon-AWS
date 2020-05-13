@@ -11,7 +11,7 @@ pipeline {
 
         stage('Lint HTML') {
               steps {
-                  //sh 'tidy -q -e *.html'
+                  sh 'tidy -q -e *.html'
                   //Do: hadolint Dockerfile
                   sh 'echo " "'
               }
@@ -19,22 +19,22 @@ pipeline {
         stage('Build Image') { 
               steps { 
                   script {
-                   //dockerImage= docker.build registry + ":$BUILD_NUMBER"   
+                   dockerImage= docker.build registry + ":green"   
                    sh 'echo "Building Image"'
                   }
             }
         }
         stage('Security Scan') {
               steps { 
-                  //aquaMicroscanner imageName: registry+":$BUILD_NUMBER", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
+                  aquaMicroscanner imageName: registry+":green", notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'string'
                   sh 'echo "Security Scanning Image"'    
               }
          } 
         stage('Upload Image') {
               steps {
                   script {
-                //      docker.withRegistry( '', registryCredential ) {
-               //           dockerImage.push()
+                      docker.withRegistry( '', registryCredential ) {
+                          dockerImage.push()
                         sh 'echo "Uploading Image"'
                            }
                   }
@@ -43,8 +43,8 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     sh 'echo "Deploying Image/Creating Cluster"'
-                    sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
-                    sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
+                    //sh "eksctl create cluster -f /var/lib/jenkins/workspace/meOfLife-using-Amazon-AWS_master/Conf/clusterConf.yml"
+                    //sh "aws eks --region us-west-2 update-kubeconfig --name mcluster"
                 }
             }
          }
@@ -79,7 +79,7 @@ pipeline {
         }
         stage('Clean Up') { 
               steps { 
-                  //sh "docker rmi $registry:$BUILD_NUMBER"
+                  sh "docker rmi $registry:green"
                   
                   withAWS(credentials: 'aws-static', region: 'us-west-2') {
                     //sh "eksctl delete cluster --name=mcluster --wait"
@@ -90,8 +90,8 @@ pipeline {
      }
     post {
         always {
-            //sh "docker rmi $registry:$BUILD_NUMBER"
-            //sh 'docker system prune'
+            //sh "docker rmi $registry:green"
+            sh 'docker system prune'
             sh 'echo "Garbage collected"'
         }
     }

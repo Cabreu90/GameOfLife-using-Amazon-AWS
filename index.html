@@ -3,6 +3,13 @@
 <html>
 <head>
 	<title>Game of Life</title>
+
+	<style>
+		.content {
+		  max-width: 200px;
+		  margin: auto;
+		}
+	</style>
 	<script type="text/javascript">
 	var Board;
 	var xsize = 10;
@@ -217,7 +224,7 @@
 	}
 	</script>
 </head>
-<body onload="Main()">
+<body onload="Main()" style="background-color:green;"  class="content">
 <div id="board">
 </div>
 <a href="#IGoNowhere" onclick="newBoard=Board.clone();NextStep(Board);DrawBoard(newBoard);Board=newBoard.clone();">Next -></a>
